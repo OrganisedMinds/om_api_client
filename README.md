@@ -4,7 +4,7 @@ TODO: Write a gem description
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Once we publish this on RubyGems.org; Add this line to your application's Gemfile:
 
     gem 'om_api_client'
 
@@ -18,7 +18,13 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+>> c = OM::Api::Client.new(
+     endpoint: "http://localhost:3000/",
+     client_id: "89e598...",
+     client_secret: "10d06f..."
+   )
+>> c.me
+
 
 ## Contributing
 
