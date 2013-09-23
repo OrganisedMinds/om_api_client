@@ -31,13 +31,14 @@ class OM::Api::Client
     grant_data = {
       grant_type: grant_type,
       client_id: @client_id,
-      client_secret: @client_secret
+      client_secret: @client_secret,
     }
     if grant_type == 'password'
       grant_data.merge(password: opts[:password], username: opts[:username])
     end
 
-    response = @agent.call(:post, '/oauth/token?', grant_data )
+    scopes = opts[:scopes] || [ :read ]
+    response = @agent.call(:post, '/oauth/token?scope=' + scopes.join('+'), grant_data )
 
     @access_token = response.data.access_token
 

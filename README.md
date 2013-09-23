@@ -18,13 +18,15 @@ Or install it yourself as:
 
 ## Usage
 
+```
 >> c = OM::Api::Client.new(
      endpoint: "http://localhost:3000/",
      client_id: "89e598...",
      client_secret: "10d06f..."
+     scopes: %w[read write]
    )
 >> c.me
-
+```
 
 ## Contributing
 
