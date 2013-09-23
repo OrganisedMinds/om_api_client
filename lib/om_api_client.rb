@@ -11,6 +11,7 @@ require 'om_api_client/authentication'
 require 'om_api_client/user'
 require 'om_api_client/invitation'
 require 'om_api_client/delegation'
+require 'om_api_client/workspace'
 
 module OM::Api
   # The workhorse
@@ -20,7 +21,11 @@ module OM::Api
     include OM::Api::Authentication
     include OM::Api::User
     include OM::Api::Invitation
+<<<<<<< HEAD
     include OM::Api::Delegation
+=======
+    include OM::Api::Workspace
+>>>>>>> Added workspace client
 
     attr_reader :agent, :last_response
 
