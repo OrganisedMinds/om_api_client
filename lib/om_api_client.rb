@@ -9,6 +9,7 @@ require 'sawyer'
 
 require 'om_api_client/authentication'
 require 'om_api_client/user'
+require 'om_api_client/invitation'
 
 module OM::Api
   # The workhorse
@@ -17,6 +18,7 @@ module OM::Api
   class Client
     include OM::Api::Authentication
     include OM::Api::User
+    include OM::Api::Invitation
 
     attr_reader :agent, :last_response
 
