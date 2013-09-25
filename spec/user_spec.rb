@@ -30,12 +30,12 @@ describe OM::Api::User do
     end
 
     it "should request my followers" do
-      client.should_receive(:request).with(:get, "/api/me/following", { type: nil })
+      client.should_receive(:request).with(:get, "/api/me/followings", { type: nil })
       client.me_following
     end
 
     it "should request my followers, limited to type" do
-      client.should_receive(:request).with(:get, "/api/me/following", { type: :User })
+      client.should_receive(:request).with(:get, "/api/me/followings", { type: :User })
       client.me_following(:User)
     end
   end

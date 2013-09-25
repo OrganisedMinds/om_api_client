@@ -38,7 +38,7 @@ module OM::Api
     # @return [Array<Sawyer::Resource>]
     #
     def follows_me(type=nil)
-      get('/api/me/following', { type: type })
+      get('/api/me/followings', { type: type })
     end
     alias_method :me_following, :follows_me
 
