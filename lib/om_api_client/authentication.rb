@@ -1,4 +1,21 @@
 module OM::Api::Authentication
+  def authenticate!
+    return if authenticated?
+
+    grant_data = {
+      grant_type: 'client_credentials',
+      client_id: @client_id,
+      client_secret: @client_secret,
+    }
+
+    response = @agent.call(:post, '/oauth/token?scope=' + @scopes.join('+'), grant_data )
+
+    @access_token = response.data.access_token
+
+    # patch our connection
+    @agent.instance_variable_get(:@conn).authorization( "Bearer", @access_token )
+  end
+
   # Indicates if the client was supplied an OAuth
   # access token
   #

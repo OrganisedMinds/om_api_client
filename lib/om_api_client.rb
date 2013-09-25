@@ -40,26 +40,13 @@ module OM::Api
     def initialize(opts = {})
       @endpoint = opts[:endpoint] || 'https://app.organisedminds.com/'
 
+      @client_id     = opts[:client_id] || raise("We need a client-id")
+      @client_secret = opts[:client_secret] || raise("We need a client-secret")
+      @scopes        = opts[:scopes] || [ :read ]
+
       @agent = Sawyer::Agent.new(@endpoint) do |http|
         http.headers['content-type'] = 'application/json'
       end
-
-      @client_id     = opts[:client_id] || raise("We need a client-id")
-      @client_secret = opts[:client_secret] || raise("We need a client-secret")
-
-      grant_data = {
-        grant_type: 'client_credentials',
-        client_id: @client_id,
-        client_secret: @client_secret,
-      }
-
-      scopes = opts[:scopes] || [ :read ]
-      response = @agent.call(:post, '/oauth/token?scope=' + scopes.join('+'), grant_data )
-
-      @access_token = response.data.access_token
-
-      # patch our connection
-      @agent.instance_variable_get(:@conn).authorization( "Bearer", @access_token )
     end
 
     # Perform a GET request
@@ -121,13 +108,12 @@ module OM::Api
     # @return [Sawyer::Resource, Array<Sawyer::Resource>]
     #
     def request(method, path, data)
+      authenticate!
+
       options = {}
       options[:query]   = data.delete(:query) || {}
       options[:headers] = data.delete(:headers) || {}
 
-      #if application_authenticated?
-      #  options[:query].merge! application_authentication
-      #end
       if accept = data.delete(:accept)
         options[:headers][:accept] = accept
       end
