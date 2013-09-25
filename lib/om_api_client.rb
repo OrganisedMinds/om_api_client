@@ -10,75 +10,132 @@ require 'sawyer'
 require 'om_api_client/authentication'
 require 'om_api_client/user'
 
-class OM::Api::Client
-  include OM::Api::Authentication
-  include OM::Api::User
+module OM::Api
+  # The workhorse
+  # @example
+  # c = OM::Api::Client.new(client_id: "89e598...", client_secret: "10d06f...")
+  class Client
+    include OM::Api::Authentication
+    include OM::Api::User
 
-  attr_reader :agent
+    attr_reader :agent, :last_response
 
-  def initialize(opts = {})
-    @endpoint = opts[:endpoint] || 'https://app.organisedminds.com/'
+    # Setup an authenticated connection to the OM Api
+    #
+    # @param opts [Hash] List of options
+    # @option opts [String] :endpoint
+    #   The endpoint to connect to;
+    #   Defaults to 'https://app.organisedminds.com/'
+    #
+    # @option opts [String] :client_id - **required**
+    #   The client-id as provided by OM
+    #
+    # @option opts [String] :client_secret - **required**
+    #   The clien-secret as provided by OM
+    #
+    # @option opts [Array]  :scopes
+    #   The scope(s) of the connection;
+    #   Defaults to 'read', possible are 'read' and 'write'
+    #
+    def initialize(opts = {})
+      @endpoint = opts[:endpoint] || 'https://app.organisedminds.com/'
 
-    @agent = Sawyer::Agent.new(@endpoint) do |http|
-      http.headers['content-type'] = 'application/json'
+      @agent = Sawyer::Agent.new(@endpoint) do |http|
+        http.headers['content-type'] = 'application/json'
+      end
+
+      @client_id     = opts[:client_id] || raise("We need a client-id")
+      @client_secret = opts[:client_secret] || raise("We need a client-secret")
+
+      grant_data = {
+        grant_type: 'client_credentials',
+        client_id: @client_id,
+        client_secret: @client_secret,
+      }
+
+      scopes = opts[:scopes] || [ :read ]
+      response = @agent.call(:post, '/oauth/token?scope=' + scopes.join('+'), grant_data )
+
+      @access_token = response.data.access_token
+
+      # patch our connection
+      @agent.instance_variable_get(:@conn).authorization( "Bearer", @access_token )
     end
 
-    @client_id     = opts[:client_id] || raise("We need a client-id")
-    @client_secret = opts[:client_secret] || raise("We need a client-secret")
-
-    grant_type = opts[:type] || 'client_credentials'
-
-    grant_data = {
-      grant_type: grant_type,
-      client_id: @client_id,
-      client_secret: @client_secret,
-    }
-    if grant_type == 'password'
-      grant_data.merge(password: opts[:password], username: opts[:username])
+    # Perform a GET request
+    #
+    # @param path [String] The uri-path to request
+    # @param data [Hash]   The request data
+    # @return [Sawyer::Resource, Array<Sawyer::Resource>]
+    #
+    def get(path, data={})
+      request(:get, path, data)
     end
 
-    scopes = opts[:scopes] || [ :read ]
-    response = @agent.call(:post, '/oauth/token?scope=' + scopes.join('+'), grant_data )
-
-    @access_token = response.data.access_token
-
-    # patch our connection
-    @agent.instance_variable_get(:@conn).authorization( "Bearer", @access_token )
-  end
-
-  def get(path, data={})
-    request(:get, path, data)
-  end
-
-  def post(path, data={})
-    request(:post, path, data)
-  end
-
-  def put(path, data={})
-    request(:put, path, data)
-  end
-
-  def delete(path, data={})
-    request(:delete, path, data)
-  end
-
-  def head(path, data={})
-    request(:head, path, data)
-  end
-
-  def request(method, path, data)
-    options = {}
-    options[:query]   = data.delete(:query) || {}
-    options[:headers] = data.delete(:headers) || {}
-
-    #if application_authenticated?
-    #  options[:query].merge! application_authentication
-    #end
-    if accept = data.delete(:accept)
-      options[:headers][:accept] = accept
+    # Perform a POST request
+    #
+    # @param path [String] The uri-path to request
+    # @param data [Hash]   The request data
+    # @return [Sawyer::Resource, Array<Sawyer::Resource>]
+    #
+    def post(path, data={})
+      request(:post, path, data)
     end
 
-    @last_response = response = agent.call(method, URI.encode(path), data, options)
-    response.data
+    # Perform a PUT request
+    #
+    # @param path [String] The uri-path to request
+    # @param data [Hash]   The request data
+    # @return [Sawyer::Resource, Array<Sawyer::Resource>]
+    #
+    def put(path, data={})
+      request(:put, path, data)
+    end
+
+    # Perform a DELETE request
+    #
+    # @param path [String] The uri-path to request
+    # @param data [Hash]   The request data
+    # @return [Sawyer::Resource, Array<Sawyer::Resource>]
+    #
+    def delete(path, data={})
+      request(:delete, path, data)
+    end
+
+    # Perform a HEAD request
+    #
+    # @param path [String] The uri-path to request
+    # @param data [Hash]   The request data
+    # @return [Sawyer::Resource, Array<Sawyer::Resource>]
+    #
+    def head(path, data={})
+      request(:head, path, data)
+    end
+
+    # Perform a request
+    #
+    # @param method [Symbol] Request type (GET, POST, etc)
+    # @param path   [String] The uri-path to request
+    # @param data   [Hash]   The request data
+    #
+    # @return [Sawyer::Resource, Array<Sawyer::Resource>]
+    #
+    def request(method, path, data)
+      options = {}
+      options[:query]   = data.delete(:query) || {}
+      options[:headers] = data.delete(:headers) || {}
+
+      #if application_authenticated?
+      #  options[:query].merge! application_authentication
+      #end
+      if accept = data.delete(:accept)
+        options[:headers][:accept] = accept
+      end
+
+      @last_response = response = agent.call(method, URI.encode(path), data, options)
+      response.data
+    end
+
+    private :request
   end
 end

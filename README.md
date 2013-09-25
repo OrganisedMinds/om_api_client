@@ -1,32 +1,37 @@
-# OmApiClient
+# OM::Api::Client
 
-TODO: Write a gem description
+A ruby-client gem for the public API of [OrganisedMinds](http://organisedminds.com/)
 
 ## Installation
 
-Once we publish this on RubyGems.org; Add this line to your application's Gemfile:
+Once we publish this on RubyGems.org; Add this line to your application's
+Gemfile:
 
-    gem 'om_api_client'
+`gem 'om_api_client'`
 
 And then execute:
 
-    $ bundle
+`$ bundle`
 
 Or install it yourself as:
 
-    $ gem install om_api_client
+`$ gem install om_api_client`
 
 ## Usage
 
+```ruby
+c = OM::Api::Client.new(
+  client_id: "89e598...",
+  client_secret: "10d06f...",
+  scopes: %w[read write]
+)
+c.me
+# => #<Sawyer::Resource:0x000000030daec8 ... >
 ```
->> c = OM::Api::Client.new(
-     endpoint: "http://localhost:3000/",
-     client_id: "89e598...",
-     client_secret: "10d06f..."
-     scopes: %w[read write]
-   )
->> c.me
-```
+
+## Credits
+
+This Gem contracts inspiration from [octokit.rb](https://github.com/octokit/octokit.rb)
 
 ## Contributing
 

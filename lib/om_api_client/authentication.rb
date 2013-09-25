@@ -2,7 +2,6 @@ module OM::Api::Authentication
   # Indicates if the client was supplied an OAuth
   # access token
   #
-  # @see http://developer.github.com/v3/#authentication
   # @return [Boolean]
   def authenticated?
     !!@access_token
@@ -12,10 +11,18 @@ module OM::Api::Authentication
   # client_id and secret credentials to make anonymous
   # requests at a higher rate limit
   #
-  # @see http://developer.github.com/v3/#unauthenticated-rate-limited-requests
   # @return Boolean
+  #
   def application_authenticated?
     !!application_authentication
+  end
+
+  # Get an overview of the current rate-limit
+  #
+  # @return [Sawyer::Resource]
+  #
+  def rate_limit
+    get("/api/me/rate_limit")
   end
 
   private
