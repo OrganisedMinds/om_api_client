@@ -31,6 +31,17 @@ module OM::Api
       get('/api/me/follows', { type: type })
     end
 
+    # Get a list of things following the current user.
+    #
+    # @param type [Symbol, String] class name to filter the reuslts by
+    #             eg: Activity or User
+    # @return [Array<Sawyer::Resource>]
+    #
+    def follows_me(type=nil)
+      get('/api/me/followings', { type: type })
+    end
+    alias_method :me_following, :follows_me
+
     # Get a list of other users connected to this user, either by sharing a
     # Workspace or having forged a collaboration relationship (following)
     #
