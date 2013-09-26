@@ -8,12 +8,14 @@ module OM::Api::Authentication
       client_secret: @client_secret,
     }
 
-    response = @agent.call(:post, '/oauth/token?scope=' + @scopes.join('+'), grant_data )
+    response = @agent.post('/oauth/token?scope=' + @scopes.join('+')) do |req|
+      req.body = Rufus::Json.encode(grant_data)
+    end
 
-    @access_token = response.data.access_token
+    @access_token = Rufus::Json.decode(response.body)["access_token"]
 
     # patch our connection
-    @agent.instance_variable_get(:@conn).authorization( "Bearer", @access_token )
+    @agent.authorization( "Bearer", @access_token )
   end
 
   # Indicates if the client was supplied an OAuth

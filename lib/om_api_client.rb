@@ -4,8 +4,9 @@ module OM
   end
 end
 
+require 'faraday'
+require 'faraday-cookie_jar'
 require 'rufus-json/automatic'
-require 'sawyer'
 
 require 'om_api_client/authentication'
 require 'om_api_client/user'
@@ -13,6 +14,8 @@ require 'om_api_client/invitation'
 require 'om_api_client/workspace'
 require 'om_api_client/stack'
 require 'om_api_client/delegation'
+
+require 'om_api_client/resource'
 
 module OM::Api
   # The workhorse
@@ -59,8 +62,15 @@ module OM::Api
       @client_secret = opts[:client_secret] || raise("We need a client-secret")
       @scopes        = opts[:scopes] || [ :read ]
 
-      @agent = Sawyer::Agent.new(@endpoint) do |http|
-        http.headers['content-type'] = 'application/json'
+      @agent = Faraday.new(:url => @endpoint) do |faraday|
+        faraday.use :cookie_jar
+        faraday.request :url_encoded
+        faraday.adapter Faraday.default_adapter
+        faraday.headers['content-type'] = 'application/json'
+
+        if opts[:debug] == true
+          faraday.response :logger
+        end
       end
     end
 
@@ -125,16 +135,34 @@ module OM::Api
     def request(method, path, data)
       authenticate!
 
-      options = {}
-      options[:query]   = data.delete(:query) || {}
-      options[:headers] = data.delete(:headers) || {}
+      headers = {
+        Authorization: "Bearer #{@access_token}"
+      }.merge(data.delete(:headers) || {})
 
       if accept = data.delete(:accept)
-        options[:headers][:accept] = accept
+        headers[:accept] = accept
       end
 
-      @last_response = response = agent.call(method, URI.encode(path), data, options)
-      response.data
+      @last_response = response = if [ :post, :put ].include?(method)
+        agent.send(method, URI.encode(path)) do |request|
+          request.headers.merge(headers)
+          request.body = Rufus::Json.encode(data)
+        end
+
+      else
+        agent.send(method, URI.encode(path), data) do |request|
+          request.headers.merge(headers)
+        end
+      end
+
+      parsed = Rufus::Json.decode(response.body)
+      if parsed.is_a?(Hash)
+        OM::Api::Resource.absorb(parsed)
+      elsif parsed.is_a?(Array)
+        parsed.map! { |i| OM::Api::Resource.absorb(i) }
+      else
+        parsed
+      end
     end
 
     private :request
