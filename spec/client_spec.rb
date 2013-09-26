@@ -59,4 +59,31 @@ describe OM::Api::Client do
       client.head("/foo")
     end
   end
+
+  describe "#request" do
+    before(:all) do
+      @stubs = Faraday::Adapter::Test::Stubs.new do |stub|
+        stub.post('/oauth/token?scope=read') { [200, {}, '{"access_token":"meh"}'] }
+        stub.get('/single') { [200, {}, '{"single":"resource"}'] }
+        stub.get('/multi') { [200, {}, '[{"single":"resource"},{"single":"resource"}]'] }
+      end
+    end
+
+    let(:client) {
+      client = OM::Api::Client.new( client_id: 1, client_secret: 2, adapter: [ :test, @stubs ] )
+      def client.authorize!; return true; end
+
+      client
+    }
+
+    it "should turn response into an OM::Api::Resource" do
+      client.get('/single').should be_kind_of(OM::Api::Resource)
+    end
+
+    it "should turn array-responses into arrays of OM::Api::Resource" do
+      array = client.get('/multi')
+      array.should be_kind_of(Array)
+      array.should_not be_any { |i| !i.kind_of?(OM::Api::Resource) }
+    end
+  end
 end
