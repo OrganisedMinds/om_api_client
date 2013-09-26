@@ -3,12 +3,16 @@ module OM::Api
   # Methods for the OM workspaces
   #
   module Workspace
-    # Get all worksapces for the current user
-    def workspaces
+    # Get all workspaces for the current user
+    #
+    # @param opts [Hash] Additional parameters for the query
+    # @return [Sawyer::Resource] - Workspaces
+    #
+    def workspaces(opts={})
       get('/api/workspaces')
     end
 
-    # Get a single workspace where current user belongs to
+    # Get a single workspace
     #
     # @param id [Integer] The id of the workspace
     # @return [Sawyer::Resource] - The workspace
@@ -23,6 +27,7 @@ module OM::Api
     # @option opts [String] :name The name
     # @option opts [String] :description The description
     # @option opts [Hash]  :setting Workspace settings
+    # @return [Sawyer::Resource] - Newly created workspace
     #
     def create_workspace(opts={})
       post("/api/workspaces", opts)
@@ -30,11 +35,12 @@ module OM::Api
 
     # Update a workspace
     #
-    # @param id [Integer] The id of the worksapce
+    # @param id [Integer] The id of the workspace
     # @param opts [Hash] options to update a workspace with
     # @option opts [String] :name The name
     # @option opts [String] :description The description
     # @option opts [Hash]  :setting Workspace settings
+    # @return [Sawyer::Resource] - Updated workspace
     #
     def update_workspace(id, opts={})
       put("/api/workspaces/#{id}", opts)
@@ -42,9 +48,10 @@ module OM::Api
 
     # Destroy a workspace
     #
-    # @param id [Integer] The id of the worksapce
+    # @param id [Integer] The id of the workspace
     # @param archive_items [Boolean] true == archive items of the workspace in
     #   owner's personal workspace archive
+    # @return nil
     #
     def destroy_workspace(id, archive_items=false)
       delete("/api/workspaces/#{id}", {
