@@ -56,7 +56,7 @@ module OM::Api
       @agent = Faraday.new(:url => @endpoint) do |faraday|
         faraday.use :cookie_jar
         faraday.request :url_encoded
-        faraday.adapter Faraday.default_adapter
+        faraday.adapter *opts[:adapter] || Faraday.default_adapter
         faraday.headers['content-type'] = 'application/json'
 
         if opts[:debug] == true
