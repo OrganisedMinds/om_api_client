@@ -10,8 +10,8 @@ module OM::Api
 
     # Get a single inviation
     #
-    # @params id [Integer] The id of the invitation
-    # @return [Sawyer::Resource] - The invitation
+    # @param id [Integer] The id of the invitation
+    # @return [OM::Api::Resource] - The invitation
     #
     def invitation(id)
       get("/api/invitations/#{id}")
@@ -19,8 +19,8 @@ module OM::Api
 
     # Accept a single invitation
     #
-    # @params id [Integer] The id of the invitation
-    # @return [Sawyer::Resource] - The invitation
+    # @param id [Integer] The id of the invitation
+    # @return [OM::Api::Resource] - The invitation
     #
     def accept_invitation(id)
       put("/api/invitations/#{id}/accept")
@@ -28,8 +28,8 @@ module OM::Api
 
     # Decline a single invitation
     #
-    # @params id [Integer] The id of the invitation
-    # @return [Sawyer::Resource] - The invitation
+    # @param id [Integer] The id of the invitation
+    # @return [OM::Api::Resource] - The invitation
     #
     def decline_invitation(id)
       put("/api/invitations/#{id}/decline")
@@ -37,7 +37,7 @@ module OM::Api
 
     # Destroy an invitation
     #
-    # @params id [Integer] The id of the invitation
+    # @param id [Integer] The id of the invitation
     # @return [Boolean] true == success
     #
     # @note Only works on invitations created by the user

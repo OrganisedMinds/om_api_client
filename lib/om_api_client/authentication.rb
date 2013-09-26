@@ -38,13 +38,11 @@ module OM::Api::Authentication
 
   # Get an overview of the current rate-limit
   #
-  # @return [Sawyer::Resource]
+  # @return [OM::Api::Resource]
   #
   def rate_limit
     get("/api/me/rate_limit")
   end
-
-  private
 
   def application_authentication
     if @client_id && @client_secret
@@ -54,4 +52,6 @@ module OM::Api::Authentication
       }
     end
   end
+
+  private :application_authentication
 end
