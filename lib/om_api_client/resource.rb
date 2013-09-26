@@ -1,4 +1,9 @@
 class OM::Api::Resource < Hash
+  # Absorb a hash as an OM::Api::Resource
+  #
+  # @param hash [Hash] A hash to absorb
+  # @returns [OM::Api::Resource] (recursed)
+  #
   def self.absorb(hash)
     res = self.new.merge(hash)
 

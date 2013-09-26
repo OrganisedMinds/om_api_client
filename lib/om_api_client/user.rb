@@ -6,7 +6,7 @@ module OM::Api
 
     # Get the current user
     #
-    # @return [Sawyer::Resource]
+    # @return [OM::Api::Resource]
     #
     def me
       get('/api/me')
@@ -15,7 +15,7 @@ module OM::Api
 
     # Update the current user
     #
-    # @return [Sawyer::Resource] The updated user object
+    # @return [OM::Api::Resource] The updated user object
     #
     def update_me(data)
       put("/api/me", { user: data })
@@ -25,7 +25,7 @@ module OM::Api
     #
     # @param type [Symbol, String] class name to filter the reuslts by
     #             eg: Activity or User
-    # @return [Array<Sawyer::Resource>]
+    # @return [Array<OM::Api::Resource>]
     #
     def me_follows(type=nil)
       get('/api/me/follows', { type: type })
@@ -35,7 +35,7 @@ module OM::Api
     #
     # @param type [Symbol, String] class name to filter the reuslts by
     #             eg: Activity or User
-    # @return [Array<Sawyer::Resource>]
+    # @return [Array<OM::Api::Resource>]
     #
     def follows_me(type=nil)
       get('/api/me/followings', { type: type })
@@ -45,7 +45,7 @@ module OM::Api
     # Get a list of other users connected to this user, either by sharing a
     # Workspace or having forged a collaboration relationship (following)
     #
-    # @return [Array<Sawyer::Resource>] List of OM users.
+    # @return [Array<OM::Api::Resource>] List of OM users.
     #
     def my_connections
       get("/api/me/connections")
@@ -62,7 +62,7 @@ module OM::Api
     # @param slug [String] An OM user slug
     # @note The API doest not accept ID as a way to find users, you must know
     # the slug
-    # @return [Sawyer::Resource]
+    # @return [OM::Api::Resource]
     #
     def user(slug)
       get("/api/users/#{slug}")
@@ -71,7 +71,7 @@ module OM::Api
     # Send a collaboration invite to the user
     #
     # @param slug [String] An OM user slug
-    # @return [Sawyer::Resource] The invitation
+    # @return [OM::Api::Resource] The invitation
     #
     def collaborate_with(slug)
       put("/api/users/#{slug}/collaborate")

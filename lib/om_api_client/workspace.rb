@@ -6,7 +6,7 @@ module OM::Api
     # Get all workspaces for the current user
     #
     # @param opts [Hash] Additional parameters for the query
-    # @return [Sawyer::Resource] - Workspaces
+    # @return [Array<OM::Api::Resource>] - Workspaces
     #
     def workspaces(opts={})
       get('/api/workspaces')
@@ -15,7 +15,7 @@ module OM::Api
     # Get a single workspace
     #
     # @param id [Integer] The id of the workspace
-    # @return [Sawyer::Resource] - The workspace
+    # @return [OM::Api::Resource] - The workspace
     #
     def workspace(id)
       get("/api/workspaces/#{id}")
@@ -27,7 +27,7 @@ module OM::Api
     # @option opts [String] :name The name
     # @option opts [String] :description The description
     # @option opts [Hash]  :setting Workspace settings
-    # @return [Sawyer::Resource] - Newly created workspace
+    # @return [OM::Api::Resource] - Newly created workspace
     #
     def create_workspace(opts={})
       post("/api/workspaces", opts)
@@ -40,7 +40,7 @@ module OM::Api
     # @option opts [String] :name The name
     # @option opts [String] :description The description
     # @option opts [Hash]  :setting Workspace settings
-    # @return [Sawyer::Resource] - Updated workspace
+    # @return [OM::Api::Resource] - Updated workspace
     #
     def update_workspace(id, opts={})
       put("/api/workspaces/#{id}", opts)
