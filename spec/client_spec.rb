@@ -70,10 +70,7 @@ describe OM::Api::Client do
     end
 
     let(:client) {
-      client = OM::Api::Client.new( client_id: 1, client_secret: 2, adapter: [ :test, @stubs ] )
-      def client.authorize!; return true; end
-
-      client
+      OM::Api::Client.new( client_id: 1, client_secret: 2, adapter: [ :test, @stubs ] )
     }
 
     it "should turn response into an OM::Api::Resource" do
