@@ -14,7 +14,6 @@ require 'om_api_client/invitation'
 require 'om_api_client/workspace'
 require 'om_api_client/stack'
 require 'om_api_client/delegation'
-require 'om_api_client/workspace'
 
 require 'om_api_client/resource'
 
