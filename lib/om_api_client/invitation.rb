@@ -40,6 +40,8 @@ module OM::Api
     # @params id [Integer] The id of the invitation
     # @return [Boolean] true == success
     #
+    # @note Only works on invitations created by the user
+    #
     def destroy_invitation(id)
       res = delete("/api/invitations/#{id}")
       res.success
