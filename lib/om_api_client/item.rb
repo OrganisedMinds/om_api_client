@@ -44,8 +44,6 @@ module OM::Api
     #
     # @param id [Integer] The id of the workspace
     # @param opts [Hash] options to create an item with
-    # @option opts [String] :name The name
-    # @option opts [String] :description The description
     # @return [Sawyer::Resource] - Newly created item
     #
     def create_workspace_item(id, opts={})
@@ -56,8 +54,6 @@ module OM::Api
     #
     # @param id [Integer] The id of the stack
     # @param opts [Hash] options to create an item with
-    # @option opts [String] :name The name
-    # @option opts [String] :description The description
     # @return [OM::Api::Resource] - Newly created item
     #
     def create_stack_item(id, opts={})
@@ -68,8 +64,6 @@ module OM::Api
     #
     # @param id [Integer] The id of the item
     # @param opts [Hash] options to update an item with
-    # @option opts [String] :name The name
-    # @option opts [String] :description The description
     # @return [OM::Api::Resource] - Updated item
     #
     def update_item(id, opts={})

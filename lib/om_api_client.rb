@@ -14,6 +14,7 @@ require 'om_api_client/invitation'
 require 'om_api_client/workspace'
 require 'om_api_client/stack'
 require 'om_api_client/item'
+require 'om_api_client/activity'
 require 'om_api_client/delegation'
 
 require 'om_api_client/resource'
@@ -29,6 +30,7 @@ module OM::Api
     include OM::Api::Workspace
     include OM::Api::Stack
     include OM::Api::Item
+    include OM::Api::Activity
     include OM::Api::Delegation
 
     attr_reader :agent, :last_response
