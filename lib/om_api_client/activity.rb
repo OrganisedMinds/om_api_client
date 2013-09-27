@@ -82,5 +82,77 @@ module OM::Api
     def destroy_activity(id)
       delete("/api/activities/#{id}")
     end
+
+    # Play an activity
+    # @param id [Integer] The id of the activity
+    # @return [OM::Api::Resource] The activity
+    #
+    def play_activity(id)
+      put("/api/activities/#{id}/play")
+    end
+
+    # Pause an activity
+    # @param id [Integer] The id of the activity
+    # @return [OM::Api::Resource] The activity
+    #
+    def pause_activity(id)
+      put("/api/activities/#{id}/pause")
+    end
+
+    # Finish an activity
+    # @param id [Integer] The id of the activity
+    # @return [OM::Api::Resource] The activity
+    #
+    def finish_activity(id)
+      put("/api/activities/#{id}/finish")
+    end
+ 
+    # Reject an activity
+    # @param id [Integer] The id of the activity
+    # @return [OM::Api::Resource] The activity
+    #
+    def reject_activity(id)
+      put("/api/activities/#{id}/reject")
+    end
+ 
+    # Approve an activity
+    # @param id [Integer] The id of the activity
+    # @return [OM::Api::Resource] The activity
+    #
+    def approve_activity(id)
+      put("/api/activities/#{id}/approve")
+    end
+ 
+    # Accept an activity
+    # @param id [Integer] The id of the activity
+    # @return [OM::Api::Resource] The activity
+    #
+    def accept_activity(id)
+      put("/api/activities/#{id}/accept")
+    end
+ 
+    # Decline an activity
+    # @param id [Integer] The id of the activity
+    # @return [OM::Api::Resource] The activity
+    #
+    def decline_activity(id)
+      put("/api/activities/#{id}/decline")
+    end
+ 
+    # Take back an activity
+    # @param id [Integer] The id of the activity
+    # @return [OM::Api::Resource] The activity
+    #
+    def take_back_activity(id)
+      put("/api/activities/#{id}/take_back")
+    end
+ 
+    # Take over an activity
+    # @param id [Integer] The id of the activity
+    # @return [OM::Api::Resource] The activity
+    #
+    def take_over_activity(id)
+      put("/api/activities/#{id}/take_over")
+    end
   end
 end
