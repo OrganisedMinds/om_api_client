@@ -6,7 +6,7 @@ module OM::Api
 
     # Get a list of delegations for the user
     #
-    # @return [Array<Sawyer::Resource>]
+    # @return [Array<OM::Api::Resource>]
     #
     def delegations
       get("/api/delegations")
@@ -14,7 +14,7 @@ module OM::Api
 
     # Get a list of pending delegations for the user
     #
-    # @return [Array<Sawyer::Resource>]
+    # @return [Array<OM::Api::Resource>]
     #
     def pending_delegations
       get("/api/delegations/pending")
@@ -22,7 +22,7 @@ module OM::Api
 
     # Get a list of incoming delegations for the user
     #
-    # @return [Array<Sawyer::Resource>]
+    # @return [Array<OM::Api::Resource>]
     #
     def incoming_delegations
       get("/api/delegations/incoming")
@@ -30,7 +30,7 @@ module OM::Api
 
     # Get a list of pending incoming delegations for the user
     #
-    # @return [Array<Sawyer::Resource>]
+    # @return [Array<OM::Api::Resource>]
     #
     def pending_incoming_delegations
       get("/api/delegations/incoming/pending")
@@ -38,7 +38,7 @@ module OM::Api
 
     # Get a list of outgoing delegations for the user
     #
-    # @return [Array<Sawyer::Resource>]
+    # @return [Array<OM::Api::Resource>]
     #
     def outgoing_delegations
       get("/api/delegations/outgoing")
@@ -46,7 +46,7 @@ module OM::Api
 
     # Get a list of pending outgoing delegations for the user
     #
-    # @return [Array<Sawyer::Resource>]
+    # @return [Array<OM::Api::Resource>]
     #
     def pending_outgoing_delegations
       get("/api/delegations/outgoing/pending")
@@ -55,6 +55,7 @@ module OM::Api
     # Get a single delegation
     #
     # @param id [Integer] id of a delegation
+    # @return [OM::Api::Resource]
     #
     def delegation(id)
       get("/api/delegations/#{id}")
@@ -62,7 +63,8 @@ module OM::Api
 
     # Accept an incomnig delegation
     #
-    # @params id [Integer] id of the delegation to accept
+    # @param id [Integer] id of the delegation to accept
+    # @return [OM::Api::Resource] - the updated delegation
     #
     def accept_delegation(id)
       put("/api/delegations/#{id}/accept")
@@ -70,7 +72,8 @@ module OM::Api
 
     # Decline an incomnig delegation
     #
-    # @params id [Integer] id of the delegation to accept
+    # @param id [Integer] id of the delegation to accept
+    # @return [OM::Api::Resource] - the updated delegation
     #
     def decline_delegation(id, note="")
       put("/api/delegations/#{id}/decline", { note: note } )
@@ -78,11 +81,13 @@ module OM::Api
 
     # Re-delegate an incomnig delegation
     #
-    # @params id [Integer] id of the delegation to accept
-    # @params opts [Hash]
+    # @param id [Integer] id of the delegation to accept
+    # @param opts [Hash]
     # @option opts [String] :email  Delegate to this e-mail address
     # @option opts [String] :slug   Delegate to this user
     # @option opts [String] :note   Delegation note
+    #
+    # @return [OM::Api::Resource] - the new delegation
     #
     def redelegate(id, opts={})
       raise "No delegation target" if !opts[:email] && !opts[:slug]
