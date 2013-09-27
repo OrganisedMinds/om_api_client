@@ -154,5 +154,30 @@ module OM::Api
     def take_over_activity(id)
       put("/api/activities/#{id}/take_over")
     end
+
+    # Delegate an actvivity to given user
+    # @param id [Integer] The id of the activity
+    # @param opts [Hash] Options to delegate the activity with
+    # @option opts [Integer] :user_id - The id of a user to delegate activity to
+    # @option opts [Integer] :user_email - The user of a user to delegate
+    #   activity to
+    # @return [OM::Api::Resource] The activity
+    #
+    def delegate_activity(id, opts)
+      put("/api/activities/#{id}/delegate", opts)
+    end
+
+    # Move activity to workspace
+    # @param workspace_id [Integer] The id of the workspace where activity is
+    #   located
+    # @param id [Integer] The id of the activity
+    # @param opts [Hash] options to move a activity with
+    # @option opts [Integer] :new_workspace_id - The id of the workspace to
+    #   move activity to
+    # @return [OM::Api::Resource] - The activity
+    # @note activity will be placed on the top of inbox in given a workspace
+    def move_workspace_activity(workspace_id, id, opts={})
+      put("/api/workspaces/#{workspace_id}/activities/#{id}/move", opts)
+    end
   end
 end

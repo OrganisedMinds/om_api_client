@@ -93,4 +93,18 @@ describe OM::Api::Item do
     client.should_receive(:request).with(:put, "/api/activities/$id/take_over", {})
     client.take_over_activity("$id")
   end
+
+  it "should request a delegation of an activity" do
+    client.should_receive(:request).with(:put, "/api/activities/$id/delegate",
+      user_id: "$user_id"
+    )
+    client.delegate_activity("$id", user_id: "$user_id")
+  end
+
+  it "should request a move of an activity to a workspace" do
+    client.should_receive(:request).with(:put, "/api/workspaces/$workspace_id/activities/$id/move",
+      new_workspace_id: "$new_ws_id"
+    )
+    client.move_workspace_activity("$workspace_id", "$id", new_workspace_id: "$new_ws_id")
+  end
 end
