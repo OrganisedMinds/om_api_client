@@ -31,11 +31,30 @@ describe OM::Api::Workspace do
     client.destroy_workspace("$id", true)
   end
 
-  it "should should defaults destroy without archiving" do
+  it "should defaults destroy without archiving" do
     client.should_receive(:request).with(:delete, "/api/workspaces/$id", {
       archive_items: false
     })
 
     client.destroy_workspace("$id")
+  end
+
+  it "should request invitation to a workspace" do
+    client.should_receive(:request).with(:post, "/api/workspaces/$id/invite", {
+      id: 1,
+      email: ["foo@bar.com", "bob@example.de"]
+    })
+
+    client.invite_user_to_workspace("$id", id: 1, email: ["foo@bar.com", "bob@example.de"])
+  end
+
+  it "should request a leave of a workspace" do
+    client.should_receive(:request).with(:delete, "/api/workspaces/$id/leave", {})
+    client.leave_workspace("$id")
+  end
+
+  it "should request a remove of a workspace member" do
+    client.should_receive(:request).with(:delete, "/api/workspaces/$id/members/$member_id", {})
+    client.remove_workspace_member("$id", "$member_id")
   end
 end

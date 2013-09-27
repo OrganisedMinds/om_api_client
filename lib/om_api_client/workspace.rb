@@ -58,5 +58,36 @@ module OM::Api
         archive_items: archive_items
       })
     end
+
+    # Invite user(s) to workspace
+    # @param id [Integer] Workspace id
+    # @param opts [Hash] options to invite user(s) with
+    # @option opts [Integer, Array<Integer>] :id Array of ids or single id of
+    #   users to invite
+    # @option opts [String, Array<String>] :email Array of emails or single
+    #   email of users to invite
+    # @return [OM::Api::Resource, Array<OM::Api::Resource>] Invited user or
+    #   an array of invited users
+    #
+    def invite_user_to_workspace(id, opts={})
+      post("/api/workspaces/#{id}/invite", opts)
+    end
+
+    # Leave workspace
+    # @param id [Integer] Workspace id
+    # @return nil
+    #
+    def leave_workspace(id)
+      delete("/api/workspaces/#{id}/leave")
+    end
+
+    # Remove workspace member
+    # @param id [Integer] Workspace id
+    # @param member_id [Integer] The id of workspace member to remove
+    # @return nil
+    #
+    def remove_workspace_member(id, member_id)
+      delete("/api/workspaces/#{id}/members/#{member_id}")
+    end
   end
 end
