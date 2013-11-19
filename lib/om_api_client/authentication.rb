@@ -36,14 +36,6 @@ module OM::Api::Authentication
     !!application_authentication
   end
 
-  # Get an overview of the current rate-limit
-  #
-  # @return [OM::Api::Resource]
-  #
-  def rate_limit
-    get("/api/me/rate_limit")
-  end
-
   def application_authentication
     if @client_id && @client_secret
       {
