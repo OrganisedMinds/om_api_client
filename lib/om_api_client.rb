@@ -8,14 +8,15 @@ require 'faraday'
 require 'faraday-cookie_jar'
 require 'rufus-json/automatic'
 
-require 'om_api_client/authentication'
-require 'om_api_client/user'
-require 'om_api_client/invitation'
-require 'om_api_client/workspace'
-require 'om_api_client/stack'
-require 'om_api_client/delegation'
-
 require 'om_api_client/resource'
+
+require 'om_api_client/authentication'
+require 'om_api_client/delegation'
+require 'om_api_client/invitation'
+require 'om_api_client/session'
+require 'om_api_client/stack'
+require 'om_api_client/user'
+require 'om_api_client/workspace'
 
 module OM::Api
   # The workhorse
@@ -28,6 +29,7 @@ module OM::Api
     include OM::Api::Workspace
     include OM::Api::Stack
     include OM::Api::Delegation
+    include OM::Api::Session
 
     attr_reader :agent, :last_response
 
@@ -149,6 +151,7 @@ module OM::Api
       end
 
       parsed = Rufus::Json.decode(response.body)
+
       if parsed.is_a?(Hash)
         OM::Api::Resource.absorb(parsed)
       elsif parsed.is_a?(Array)
