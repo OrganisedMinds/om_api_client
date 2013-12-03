@@ -1,12 +1,9 @@
 class OM::Api::Resource < Hash
-<<<<<<< HEAD
   # Absorb a hash as an OM::Api::Resource
   #
   # @param hash [Hash] A hash to absorb
   # @returns [OM::Api::Resource] (recursed)
   #
-=======
->>>>>>> Switch over from Sawyer to Faraday
   def self.absorb(hash)
     res = self.new.merge(hash)
 
