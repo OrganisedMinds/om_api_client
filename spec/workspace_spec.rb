@@ -13,6 +13,21 @@ describe OM::Api::Workspace do
     client.workspace("$id")
   end
 
+  it "should request workspace where user is invited" do
+    client.should_receive(:request).with(:get, "/api/workspaces/invited", {})
+    client.invited_workspaces
+  end
+
+  it "should request a workspace invitation" do
+    email = Faker::Internet.email
+
+    client.should_receive(:request).with(
+      :post, "/api/workspaces/$id/invitation", { email: [ email ] }
+    )
+
+    client.invite_to_workspace("$id", email)
+  end
+
   it "should request a create of a workspace" do
     client.should_receive(:request).with(:post, "/api/workspaces", {name: "foo"})
     client.create_workspace(name: "foo")
@@ -37,5 +52,15 @@ describe OM::Api::Workspace do
     })
 
     client.destroy_workspace("$id")
+  end
+
+  it "should request a workspace inbox" do
+    client.should_receive(:request).with(:get, "/api/workspaces/$id/inbox")
+    client.workspace_inbox("$id")
+  end
+
+  it "should create an item on the inbox" do
+    client.should_receive(:request).with(:put, "/api/workspaces/$id/inbox", { type: "Activity", id: 12 } )
+    client.workspace_inbox_add(type: "Activity", id: 12)
   end
 end
