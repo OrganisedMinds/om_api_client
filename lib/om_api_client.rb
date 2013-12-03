@@ -17,6 +17,7 @@ require 'om_api_client/session'
 require 'om_api_client/stack'
 require 'om_api_client/user'
 require 'om_api_client/workspace'
+require 'om_api_client/activity'
 
 module OM::Api
   # The workhorse
@@ -27,6 +28,7 @@ module OM::Api
     include OM::Api::User
     include OM::Api::Invitation
     include OM::Api::Workspace
+    include OM::Api::Activity
     include OM::Api::Stack
     include OM::Api::Delegation
     include OM::Api::Session
