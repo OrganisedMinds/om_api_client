@@ -64,4 +64,9 @@ describe OM::Api::Workspace do
     client.should_receive(:request).with(:put, "/api/workspaces/$id/inbox", { type: "Activity", id: 12 } )
     client.workspace_inbox_add(id, type: "Activity", id: 12)
   end
+
+  it "should return all items" do
+    client.should_receive(:request).with(:get, "/api/workspaces/$id/items", {})
+    client.workspace_items(id)
+  end
 end

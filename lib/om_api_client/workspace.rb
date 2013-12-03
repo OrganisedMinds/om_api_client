@@ -75,12 +75,33 @@ module OM::Api
       post("/api/workspaces/#{id}/invitation", opts)
     end
 
+    # Return the inbox of the workspace
+    #
+    # @param id [Integer] The id of the workspace
+    # @return [OM::Api::Resource] the inbox
+    #
     def workspace_inbox(id)
       get("/api/workspaces/#{id}/inbox")
     end
 
+    # Add an item on the workspace inbox
+    #
+    # @param id [Integer] The id of the workspace
+    # @param opts [Hash] options to find the item to inbox
+    # @option opts [String] :type Type of item ("Activity" for instance)
+    # @option opts [String] :id Id of the item
+    #
     def workspace_inbox_add(id, opts)
       put("/api/workspaces/#{id}/inbox", opts)
+    end
+
+    # Return the items of the workspace
+    #
+    # @param id [Integer] The id of the workspace
+    # @return [Array<OM::Api::Resource>] the items
+    #
+    def workspace_items(id)
+      get("/api/workspaces/#{id}/items")
     end
   end
 end
