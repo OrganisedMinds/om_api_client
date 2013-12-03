@@ -58,5 +58,29 @@ module OM::Api
         archive_items: archive_items
       })
     end
+
+    def invited_workspaces
+      get("/api/workspaces/invited")
+    end
+
+    def invite_to_workspace(id, opts)
+      opts[:cc] = (opts[:cc] == true ? 'true' : 'false')
+      if opts.has_key?(:email)
+        opts[:email] = [ opts[:email] ] unless opts[:email].is_a?(Array)
+      end
+      if opts.has_key?(:slug)
+        opts[:slug] = [ opts[:slug] ] unless opts[:slug].is_a?(Array)
+      end
+
+      post("/api/workspaces/#{id}/invitation", opts)
+    end
+
+    def workspace_inbox(id)
+      get("/api/workspaces/#{id}/inbox")
+    end
+
+    def workspace_inbox_add(id, opts)
+      put("/api/workspaces/#{id}/inbox", opts)
+    end
   end
 end
