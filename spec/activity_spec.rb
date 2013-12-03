@@ -53,4 +53,11 @@ describe OM::Api::Activity do
     })
     client.move_activity(id, { from: "$source", to: "$destination" })
   end
+
+  it "should update a blox" do
+    client.should_receive(:request).with(:put, "/api/activities/$activity/blox/$id", {
+      value: "low"
+    })
+    client.update_activity_blox("$activity", id, { value: "low" })
+  end
 end

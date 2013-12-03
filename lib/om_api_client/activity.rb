@@ -91,5 +91,9 @@ module OM::Api
 
       put("/api/activities/#{id}/move", opts)
     end
+
+    def update_activity_blox(source_id, id, opts)
+      put("/api/activities/#{source_id}/blox/#{id}", opts)
+    end
   end
 end
