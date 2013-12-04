@@ -8,48 +8,48 @@ module OM::Api
     #
     # @return [Array<OM::Api::Resource>]
     #
-    def delegations
-      get("/api/delegations")
+    def delegations(opts={})
+      get("/api/delegations", opts)
     end
 
     # Get a list of pending delegations for the user
     #
     # @return [Array<OM::Api::Resource>]
     #
-    def pending_delegations
-      get("/api/delegations/pending")
+    def pending_delegations(opts={})
+      get("/api/delegations/pending", opts)
     end
 
     # Get a list of incoming delegations for the user
     #
     # @return [Array<OM::Api::Resource>]
     #
-    def incoming_delegations
-      get("/api/delegations/incoming")
+    def incoming_delegations(opts={})
+      get("/api/delegations/incoming", opts)
     end
 
     # Get a list of pending incoming delegations for the user
     #
     # @return [Array<OM::Api::Resource>]
     #
-    def pending_incoming_delegations
-      get("/api/delegations/incoming/pending")
+    def pending_incoming_delegations(opts={})
+      get("/api/delegations/incoming/pending", opts)
     end
 
     # Get a list of outgoing delegations for the user
     #
     # @return [Array<OM::Api::Resource>]
     #
-    def outgoing_delegations
-      get("/api/delegations/outgoing")
+    def outgoing_delegations(opts={})
+      get("/api/delegations/outgoing", opts)
     end
 
     # Get a list of pending outgoing delegations for the user
     #
     # @return [Array<OM::Api::Resource>]
     #
-    def pending_outgoing_delegations
-      get("/api/delegations/outgoing/pending")
+    def pending_outgoing_delegations(opts={})
+      get("/api/delegations/outgoing/pending", opts)
     end
 
     # Get a single delegation
