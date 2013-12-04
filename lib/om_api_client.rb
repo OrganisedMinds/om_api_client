@@ -152,7 +152,7 @@ module OM::Api
         end
       end
 
-      parsed = Rufus::Json.decode(response.body)
+      parsed = Rufus::Json.decode(response.body || "")
 
       if parsed.is_a?(Hash)
         OM::Api::Resource.absorb(parsed)
