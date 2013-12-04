@@ -4,8 +4,8 @@ module OM::Api
   #
   module Invitation
     # Get all invitations around the current user
-    def invitations
-      get('/api/invitations')
+    def invitations(opts={})
+      get('/api/invitations', opts)
     end
 
     # Get a single inviation

@@ -9,7 +9,7 @@ module OM::Api
     # @return [Array<OM::Api::Resource>] Stacks
     #
     def workspace_stacks(id, opts={})
-      get("/api/workspaces/#{id}/stacks")
+      get("/api/workspaces/#{id}/stacks", opts)
     end
 
     # Get single stack
@@ -66,8 +66,8 @@ module OM::Api
     # Fetch all items off the stack
     # @param id [Integer] the id of the stack
     # @return [Array<OM::Api::Resource>] The stack items
-    def stack_items(id)
-      get("/api/stacks/#{id}/items")
+    def stack_items(id, opts={})
+      get("/api/stacks/#{id}/items", opts)
     end
 
     # @param id [Integer] The id of the workspace

@@ -9,7 +9,7 @@ module OM::Api
     # @return [Array<OM::Api::Resource>] - Activities
     #
     def activities(opts={})
-      get('/api/activities')
+      get('/api/activities', opts)
     end
 
     # Get a single activity

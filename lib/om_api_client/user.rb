@@ -47,14 +47,14 @@ module OM::Api
     #
     # @return [Array<OM::Api::Resource>] List of OM users.
     #
-    def my_connections
-      get("/api/me/connections")
+    def my_connections(opts={})
+      get("/api/me/connections", opts)
     end
 
     # Get all the users available to this user (same as #my_connections)
     #
-    def users
-      get("/api/users")
+    def users(opts={})
+      get("/api/users", opts)
     end
 
     # Get a single user

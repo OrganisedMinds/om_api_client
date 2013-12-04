@@ -9,7 +9,7 @@ module OM::Api
     # @return [Array<OM::Api::Resource>] - Workspaces
     #
     def workspaces(opts={})
-      get('/api/workspaces')
+      get('/api/workspaces', opts)
     end
 
     # Get a single workspace
@@ -59,8 +59,8 @@ module OM::Api
       })
     end
 
-    def invited_workspaces
-      get("/api/workspaces/invited")
+    def invited_workspaces(opts={})
+      get("/api/workspaces/invited", opts)
     end
 
     def invite_to_workspace(id, opts)
@@ -100,8 +100,8 @@ module OM::Api
     # @param id [Integer] The id of the workspace
     # @return [Array<OM::Api::Resource>] the items
     #
-    def workspace_items(id)
-      get("/api/workspaces/#{id}/items")
+    def workspace_items(id, opts={})
+      get("/api/workspaces/#{id}/items", opts)
     end
   end
 end
