@@ -14,12 +14,12 @@ describe OM::Api::Activity do
     client.activity(id)
   end
 
-  it "should request a create of a activity" do
+  it "should request a create of an activity" do
     client.should_receive(:request).with(:post, "/api/activities", {name: "foo"})
     client.create_activity(name: "foo")
   end
 
-  it "should request a update of a worksapce" do
+  it "should request a update of a workspace" do
     client.should_receive(:request).with(:put, "/api/activities/$id", {name: "bar"})
     client.update_activity(id, name: "bar")
   end

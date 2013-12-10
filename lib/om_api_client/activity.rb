@@ -92,8 +92,15 @@ module OM::Api
       put("/api/activities/#{id}/move", opts)
     end
 
-    def update_activity_blox(source_id, id, opts)
-      put("/api/activities/#{source_id}/blox/#{id}", opts)
+    # Update building block of an activity
+    #
+    # @param activity_id [Integer] The id of the activity
+    # @param id [Integer] The id of the building block
+    # @param opts [Hash] Options to update building block with
+    # @return [OM::Api::Resource] Updated building block
+    #
+    def update_activity_blox(activity_id, id, opts)
+      put("/api/activities/#{activity_id}/blox/#{id}", opts)
     end
   end
 end
